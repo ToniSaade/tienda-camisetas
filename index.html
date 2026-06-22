@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Camiseta del Campeón - e-Commerce</title>
+    <!-- Usamos Tailwind CSS para que se vea moderna y profesional sin instalar nada -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Tipografía de camiseta deportiva */
+        @import url('https://fonts.googleapis.com/css2?family=Teko:wght@600;700&display=swap');
+        .font-dorsal { font-family: 'Teko', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 pb-20">
+
+    <!-- BANNER PROVINCIANO (CHISTE 1) -->
+    <div class="bg-sky-500 text-white text-center py-2 px-4 font-bold text-sm tracking-wide shadow-md">
+        🔥 SI SOS DE CAPITAL FEDERAL TENÉS UN 10% DE DESCUENTO. IMAGINATE SER PROVINCIANO Y PERDERTE ESTA OFERTA 🔥
+    </div>
+
+    <!-- MODAL DE NACIONALIDAD (CHISTE 2) -->
+    <div id="modal-nacionalidad" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full text-center shadow-2xl border-4 border-sky-400">
+            <span class="text-5xl">⭐⭐⭐</span>
+            <h2 class="text-2xl font-black mt-4 mb-2">Control Migratorio Digital</h2>
+            <p class="text-slate-600 mb-6">Para acceder a los precios oficiales de AFA, necesitamos una confirmación honesta:</p>
+            <div class="flex flex-col gap-3">
+                <button onclick="setNacionalidad(true)" class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-6 rounded-xl transition">
+                    🇦🇷 Sí, nací en la tierra del buen fútbol
+                </button>
+                <button onclick="setNacionalidad(false)" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-3 px-6 rounded-xl transition">
+                    ✈️ No, soy extranjero / fan de Mbappé
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR PRINCIPAL DE LA APP -->
+    <div id="app-content" class="max-w-4xl mx-auto px-4 mt-8 hidden">
+        
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-black text-slate-900 tracking-tight">LA CAMISETA DEL CAMPEÓN</h1>
+            <p class="text-slate-500 mt-1">Personalizador oficial con tres estrellas (y cargas impositivas variables)</p>
+        </header>
+
+        <!-- SECCIÓN 1: DISPLAY DE CAMISETAS ESTÁNDAR -->
+        <section id="catalogo-display" class="mb-12">
+            <h2 class="text-xl font-bold mb-4 text-slate-700 border-b pb-2">Diseños de base (Estándar AFA)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <div class="bg-white p-4 rounded-xl shadow text-center">
+                    <img src="frente.png" alt="Frente" class="w-48 h-48 object-contain mx-auto mb-2 placeholder-img">
+                    <h3 class="font-bold">Titular - Messi #10</h3>
+                    <p class="text-sky-600 font-black text-lg precio-render">$50.000</p>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl shadow text-center">
+                    <img src="frente.png" alt="Frente" class="w-48 h-48 object-contain mx-auto mb-2">
+                    <h3 class="font-bold">Titular - Di María #11</h3>
+                    <p class="text-sky-600 font-black text-lg precio-render">$50.000</p>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl shadow text-center flex flex-col justify-center items-center bg-gradient-to-br from-sky-50 to-amber-50 border-2 border-dashed border-sky-300">
+                    <h3 class="font-black text-xl mb-2">¿Querés tu propio apellido?</h3>
+                    <p class="text-xs text-slate-500 mb-4">Mismos colores, escudo y 3 estrellas, pero con tu magia.</p>
+                    <button onclick="activarPersonalizador()" class="bg-slate-900 text-white font-bold px-5 py-2.5 rounded-lg hover:bg-sky-600 transition shadow-lg">
+                        Personalizar Camiseta ↓
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: ÁREA DE PERSONALIZACIÓN DINÁMICA -->
+        <section id="zona-personalizador" class="bg-white rounded-2xl shadow-xl p-6 md:p-10 border border-slate-200 hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                
+                <!-- Columna Izq: Controles -->
+                <div>
+                    <h2 class="text-2xl font-black mb-6 text-slate-900">Crea tu dorsal</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Nombre en la espalda</label>
+                            <input type="text" id="input-nombre" maxlength="11" placeholder="EJ: EL BICHO" oninput="actualizarCamiseta()" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 uppercase">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Número (1 - 99)</label>
+                            <input type="number" id="input-numero" min="1" max="99" placeholder="10" oninput="actualizarCamiseta()" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 font-bold focus:outline-none focus:ring-2 focus:ring-sky-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Talle seleccionado</label>
+                            <select id="input-talle" onchange="actualizarCamiseta()" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 font-bold focus:outline-none focus:ring-2 focus:ring-sky-500">
+                                <option value="S">Talle S</option>
+                                <option value="M" selected>Talle M</option>
+                                <option value="L">Talle L</option>
+                                <option value="XL">Talle XL</option>
+                                <option value="XXL">Talle XXL</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-slate-400 block">Total a pagar:</span>
+                            <span class="text-3xl font-black text-slate-900 precio-render">$50.000</span>
+                        </div>
+                        <button onclick="irAlPago()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black px-8 py-4 rounded-xl shadow-lg transition flex items-center gap-2">
+                            Avanzar al pago →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Columna Der: Previsualización con la imagen superpuesta -->
+                <div class="flex flex-col items-center justify-center bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <span class="text-xs font-bold text-slate-400 mb-2 tracking-widest uppercase">Vista previa en tiempo real</span>
+                    
+                    <!-- EL SECRETO: Contenedor relativo para montar texto sobre la foto -->
+                    <div class="relative w-64 md:w-72 select-none">
+                        <img src="espalda.png" alt="Espalda Camiseta" class="w-full h-auto drop-shadow-md">
+                        
+                        <!-- Texto Nombre -->
+                        <div id="render-nombre" class="absolute top-[26%] left-0 right-0 text-center font-dorsal font-bold tracking-widest text-slate-800 text-3xl uppercase leading-none">
+                            PLAYER
+                        </div>
+                        <!-- Texto Número -->
+                        <div id="render-numero" class="absolute top-[35%] left-0 right-0 text-center font-dorsal font-bold text-slate-800 text-8xl leading-none tracking-tighter">
+                            10
+                        </div>
+                    </div>
+
+                    <div id="render-talle-badge" class="mt-4 bg-slate-200 text-slate-700 font-black text-xs px-3 py-1 rounded-full">
+                        TALLE: M
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: EL FORMULARIO DE PAGO (CHISTE 3) -->
+        <section id="zona-pago" class="bg-white rounded-2xl shadow-xl p-8 border border-slate-200 mt-8 hidden">
+            <div class="border-b pb-4 mb-6">
+                <h2 class="text-2xl font-black text-slate-900">Liquidación y Pago</h2>
+                <p class="text-xs text-slate-500 mt-1 font-semibold">Antes de que pregunte: para nada somos el ARCA, no sabemos ni siquiera qué es eso.</p>
+            </div>
+
+            <form onsubmit="procesarFormularioPago(event)" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Clave Fiscal (Nivel 3 mínimo)*</label>
+                        <input type="password" required placeholder="••••••••••••" class="w-full bg-slate-50 border rounded-lg p-2.5 font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Número de Documento*</label>
+                        <input type="text" required placeholder="XX.XXX.XXX" class="w-full bg-slate-50 border rounded-lg p-2.5 font-mono">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Adjuntar último recibo de sueldo*</label>
+                        <input type="file" required class="w-full bg-slate-50 border rounded-lg p-1.5 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">CBU / Historial de transferencias*</label>
+                        <input type="text" required placeholder="00000031000..." class="w-full bg-slate-50 border rounded-lg p-2.5 font-mono">
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-black py-4 rounded-xl shadow-lg transition text-lg">
+                        ENVIAR DATOS Y PAGAR
+                    </button>
+                </div>
+            </form>
+        </section>
+
+    </div>
+
+    <!-- PANTALLA DE REMATE FINAL (CHISTE 4) -->
+    <div id="pantalla-impuestos" class="fixed inset-0 bg-slate-900 text-white flex flex-col items-center justify-center p-4 z-50 hidden text-center">
+        <span class="text-7xl mb-4">📈</span>
+        <h1 class="text-3xl md:text-5xl font-black max-w-2xl text-amber-400 leading-tight">
+            ¡Felicidades, ascendiste de categoría!
+        </h1>
+        <p class="text-xl mt-4 text-slate-300 max-w-lg">
+            Cruzamos tus datos declarados. Ahora vas a pagar un 50% más de impuestos sobre el valor de esta compra.
+        </p>
+        
+        <button onclick="reiniciarApp()" class="mt-10 bg-rose-600 hover:bg-rose-500 text-white font-black px-10 py-5 rounded-2xl text-xl shadow-rose-900/50 shadow-2xl transition transform hover:scale-105">
+            ❤️ AMO PAGAR IMPUESTOS
+        </button>
+    </div>
+
+    <script>
+        let esExtranjero = false;
+        let precioBase = 50000;
+
+        function setNacionalidad(argentino) {
+            esExtranjero = !argentino;
+            document.getElementById('modal-nacionalidad').classList.add('hidden');
+            document.getElementById('app-content').classList.remove('hidden');
+
+            if(esExtranjero) {
+                alert("¡Ups! De repente los precios subieron un 50% 💸");
+            }
+            renderizarPrecios();
+        }
+
+        function renderizarPrecios() {
+            let precioFinal = esExtranjero ? (precioBase * 1.5) : precioBase;
+            let formateado = "$" + precioFinal.toLocaleString('es-AR');
+            
+            let elementosPrecio = document.getElementsByClassName('precio-render');
+            for(let item of elementosPrecio) {
+                item.innerText = formateado;
+            }
+        }
+
+        function activarPersonalizador() {
+            document.getElementById('zona-personalizador').classList.remove('hidden');
+            document.getElementById('zona-personalizador').scrollIntoView({behavior: 'smooth'});
+        }
+
+        function actualizarCamiseta() {
+            let nombre = document.getElementById('input-nombre').value.trim();
+            let numero = document.getElementById('input-numero').value.trim();
+            let talle = document.getElementById('input-talle').value;
+
+            document.getElementById('render-nombre').innerText = nombre === "" ? "PLAYER" : nombre;
+            document.getElementById('render-numero').innerText = numero === "" ? "10" : numero;
+            document.getElementById('render-talle-badge').innerText = "TALLE: " + talle;
+        }
+
+        function irAlPago() {
+            document.getElementById('zona-pago').classList.remove('hidden');
+            document.getElementById('zona-pago').scrollIntoView({behavior: 'smooth'});
+        }
+
+        function procesarFormularioPago(e) {
+            e.preventDefault();
+            document.getElementById('app-content').classList.add('hidden');
+            document.getElementById('pantalla-impuestos').classList.remove('hidden');
+        }
+
+        function reiniciarApp() {
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>
